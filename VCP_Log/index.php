@@ -1,25 +1,9 @@
 <?php
-echo "Executing <br>";
+echo "Executing.... <br>";
 // Check if 'runBatch=true' is set and has not already been executed (indicated by 'print=true')
 if (isset($_GET['test'])) {
 echo "test..<br>";
 
-$currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-	echo "masuk.test.<br>";
-	
-	// Escape any "&" characters in the URL for Windows batch file
-	$escapedUrl = str_replace('&', '^&', $currentUrl);
-	$escapedUrl2 = str_replace('runBatch', 'print', $escapedUrl);
-	echo "$escapedUrl2<br>";
-	// Define the batch file and scheduled task parameters
-	$batFilePath = 'C:\\_runVCP\\PrintScript.bat';
-	$taskName = 'xampp-temp-schtasks';
-
-	// Use the escaped URL as an argument to the batch file
-	//$taskCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $batFilePath . ' \'' . $escapedUrl . '\' " /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU "vboxuser"';
-	$taskCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $batFilePath . ' \'' . $escapedUrl2 . '\' " /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU SYSTEM';
-	// Display the task command for debugging
-	echo "$taskCommand<br>";
 
 }
 
