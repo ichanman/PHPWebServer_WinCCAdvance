@@ -1,0 +1,1 @@
+echo Task ran successfully at %time% >> C:\TestLog\LogFile.txt

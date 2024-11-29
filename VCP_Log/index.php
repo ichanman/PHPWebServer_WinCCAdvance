@@ -1,23 +1,5 @@
 <?php
-echo "Executing.... <br>";
 // Check if 'runBatch=true' is set and has not already been executed (indicated by 'print=true')
-if (isset($_GET['test'])) {
-	echo "test..<br>";
-	// Define the task name and the command to run
-	$taskName = "TestTaskFromPHP";
-	$taskCommand = 'notepad.exe'; // Replace with any command you want to test
-
-	// Create the schtasks command
-	$scheduleCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $taskCommand . '" /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU SYSTEM';
-
-	// Execute the command
-	$output = shell_exec($scheduleCommand);
-
-	// Output the result
-	echo "Command executed: $scheduleCommand\n";
-	echo "Output:\n$output";
-}
-
 
 if (isset($_GET['runBatch']) && $_GET['runBatch'] === 'true' && !isset($_GET['print'])) {
 	//if (isset($_GET['test'])) {	
@@ -36,7 +18,7 @@ if (isset($_GET['runBatch']) && $_GET['runBatch'] === 'true' && !isset($_GET['pr
 
 	// Use the escaped URL as an argument to the batch file
 	//$taskCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $batFilePath . ' \'' . $escapedUrl . '\' " /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU "vboxuser"';
-	$taskCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $batFilePath . ' \'' . $escapedUrl2 . '\' " /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU SYSTEM';
+	$taskCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $batFilePath . ' \'' . $escapedUrl2 . '\' " /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU "Engineer';
 	// Display the task command for debugging
 	//echo "$taskCommand<br>";
 
@@ -448,10 +430,6 @@ $conn = null;
 			<!-- Link to trigger the batch file, appending ?runBatch=true to the URL -->
 			<a href="index.php?filter=<?= $filter ?>&start_date=<?= $startDate ?>&end_date=<?= $endDate ?>&order=<?= $order ?>&page=<?= $page ?>&runBatch=true"
 				id="print-link">PRINT</a>
-
-			<a href="index.php?filter=<?= $filter ?>&start_date=<?= $startDate ?>&end_date=<?= $endDate ?>&order=<?= $order ?>&page=<?= $page ?>&test"
-				id="print-link">TEST</a>
-
 
 		</div>
 	</div>
