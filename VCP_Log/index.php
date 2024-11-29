@@ -2,23 +2,34 @@
 echo "Executing.... <br>";
 // Check if 'runBatch=true' is set and has not already been executed (indicated by 'print=true')
 if (isset($_GET['test'])) {
-echo "test..<br>";
+	echo "test..<br>";
+	// Define the task name and the command to run
+	$taskName = "TestTaskFromPHP";
+	$taskCommand = 'notepad.exe'; // Replace with any command you want to test
 
+	// Create the schtasks command
+	$scheduleCommand = 'schtasks /create /sc once /tn "' . $taskName . '" /tr "' . $taskCommand . '" /st ' . date("H:i", strtotime('+1 minute')) . ' /f /RU SYSTEM';
 
+	// Execute the command
+	$output = shell_exec($scheduleCommand);
+
+	// Output the result
+	echo "Command executed: $scheduleCommand\n";
+	echo "Output:\n$output";
 }
 
 
 if (isset($_GET['runBatch']) && $_GET['runBatch'] === 'true' && !isset($_GET['print'])) {
-//if (isset($_GET['test'])) {	
-// Get the current URL
+	//if (isset($_GET['test'])) {	
+	// Get the current URL
 	$currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 	echo "masuk..<br>";
-	
+
 	// Escape any "&" characters in the URL for Windows batch file
 	$escapedUrl = str_replace('&', '^&', $currentUrl);
 	$escapedUrl2 = str_replace('runBatch', 'print', $escapedUrl);
 	//echo "$escapedUrl2<br>";
-	
+
 	// Define the batch file and scheduled task parameters
 	$batFilePath = 'C:\\_runVCP\\PrintScript.bat';
 	$taskName = 'xampp-temp-schtasks';
@@ -41,7 +52,6 @@ if (isset($_GET['runBatch']) && $_GET['runBatch'] === 'true' && !isset($_GET['pr
 	//print_r(shell_exec('schtasks /delete /tn "' . $taskName . '" /f'));
 	shell_exec('schtasks /delete /tn "' . $taskName . '" /f');
 	header("Location: " . str_replace('&runBatch=true', '', $currentUrl));
-
 }
 
 
@@ -244,7 +254,7 @@ $conn = null;
 			gap: 10px;
 		}
 
-		
+
 		/* Container for pagination links aligned to the top-right */
 		.pagination-container {
 			position: relative;
@@ -356,10 +366,10 @@ $conn = null;
 
 	<script>
 		// Automatically trigger print dialog if URL contains 'print=true'
-		window.onload = function () {
+		window.onload = function() {
 			const urlParams = new URLSearchParams(window.location.search);
 			if (urlParams.get('print') === 'true') {
-				
+
 				window.print();
 			}
 		};
@@ -429,7 +439,7 @@ $conn = null;
 					<input type="hidden" name="order" value="<?= $order ?>">
 					<button type="submit">Apply Range</button>
 				</form>
-				
+
 			</div>
 		</div>
 
@@ -438,7 +448,7 @@ $conn = null;
 			<!-- Link to trigger the batch file, appending ?runBatch=true to the URL -->
 			<a href="index.php?filter=<?= $filter ?>&start_date=<?= $startDate ?>&end_date=<?= $endDate ?>&order=<?= $order ?>&page=<?= $page ?>&runBatch=true"
 				id="print-link">PRINT</a>
-			
+
 			<a href="index.php?filter=<?= $filter ?>&start_date=<?= $startDate ?>&end_date=<?= $endDate ?>&order=<?= $order ?>&page=<?= $page ?>&test"
 				id="print-link">TEST</a>
 
